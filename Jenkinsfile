@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Clone') {
             steps {
-                git 'https://github.com/hamza-nahhas/devops4' 
+                git 'https://github.com/Emrehall-bit/DevOps_Pro4.git' 
             }
         }
 
