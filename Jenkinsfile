@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "hamzaallaf/devops4" // add username before image name if needed, e.g., username/spring-devops4 
+        IMAGE_NAME = "emrehalli1/devops4" // add username before image name if needed, e.g., username/spring-devops4 
     }
 
     stages {
