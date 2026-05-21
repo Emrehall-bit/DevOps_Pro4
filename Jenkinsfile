@@ -12,6 +12,11 @@ pipeline {
                 sh 'java -version'
             }
         }
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
 
         stage('Clone') {
             steps {
