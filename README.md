@@ -6,7 +6,7 @@ This project demonstrates a complete CI/CD pipeline using:
 
 - Spring Boot
 - Gradle
-- Docker
+- Dockerrrr
 - DockerHubbbb
 - Jenkins
 - Kubernetes
