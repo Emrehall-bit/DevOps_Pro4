@@ -9,7 +9,7 @@ public class WebController {
 
     @GetMapping("/")
     public String index() {
-        return "Greetings from Spring Boot!";
+        return "Greetings from emre hallı!";
     }
 
     @GetMapping("/hello")
