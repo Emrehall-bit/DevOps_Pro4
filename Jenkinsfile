@@ -1,27 +1,21 @@
 pipeline {
-
     agent any
 
     environment {
-        IMAGE_NAME = "emrehalli1/devops4" // add username before image name if needed, e.g., username/spring-devops4 
+        IMAGE_NAME = "emrehalli1/devops4"
+        IMAGE_TAG = "${env.GIT_COMMIT}"
     }
 
     stages {
-
         stage('Check Java') {
             steps {
                 sh 'java -version'
             }
         }
-        
-        stage('Clean') {
-            steps {
-                deleteDir()
-            }
-        }
+
         stage('Clone') {
             steps {
-                git 'https://github.com/Emrehall-bit/DevOps_Pro4.git' 
+                git 'https://github.com/Emrehall-bit/DevOps_Pro4.git'
             }
         }
 
@@ -34,7 +28,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:latest .'
+                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
             }
         }
 
@@ -45,7 +39,6 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-
                     sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                 }
             }
@@ -53,14 +46,15 @@ pipeline {
 
         stage('Push Image') {
             steps {
-                sh 'docker push $IMAGE_NAME:latest'
+                sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
+                sh 'kubectl set image deployment/spring-devops4-deployment spring-devops4=$IMAGE_NAME:$IMAGE_TAG'
+                sh 'kubectl rollout status deployment/spring-devops4-deployment'
             }
         }
     }
